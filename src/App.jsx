@@ -10,8 +10,8 @@ function App() {
   const [startDate, setStartDate] = useState(today.getDate());
 
   const [endYear, setEndYear] = useState(today.getFullYear());
-  const [endMonth, setEndMonth] = useState(today.getMonth() + 1);
-  const [endDate, setEndDate] = useState(today.getDate());
+  const [endMonth, setEndMonth] = useState(12);
+  const [endDate, setEndDate] = useState(31);
 
   const handleCalculate = () => {
     const formatChangeStartDay = new Date(
