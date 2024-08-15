@@ -1,24 +1,31 @@
 import { useState } from "react";
 import "./App.css";
+import SelectDate from "./components/SelectDate";
 
 function App() {
   const [countHolyday, setCountHolyday] = useState(0);
   const today = new Date();
 
-  const [startYear, setStartYear] = useState(today.getFullYear());
-  const [startMonth, setStartMonth] = useState(today.getMonth() + 1);
-  const [startDate, setStartDate] = useState(today.getDate());
+  const [startDate, setStartDate] = useState({
+    year: today.getFullYear(),
+    month: today.getMonth() + 1,
+    date: today.getDate(),
+  });
 
-  const [endYear, setEndYear] = useState(today.getFullYear());
-  const [endMonth, setEndMonth] = useState(12);
-  const [endDate, setEndDate] = useState(31);
+  const [endDate, setEndDate] = useState({
+    year: today.getFullYear(),
+    month: 12,
+    date: 31,
+  });
 
   const handleCalculate = () => {
     const formatChangeStartDay = new Date(
-      `${startYear}/${startMonth}/${startDate}`
+      `${startDate.year}/${startDate.month}/${startDate.date}`
     );
 
-    const formatChangeEndDay = new Date(`${endYear}/${endMonth}/${endDate}`);
+    const formatChangeEndDay = new Date(
+      `${endDate.year}/${endDate.month}/${endDate.date}`
+    );
 
     setCountHolyday(
       Math.floor(
@@ -31,61 +38,12 @@ function App() {
     <>
       <div>
         <span>期間開始日：</span>
-        <input
-          type="number"
-          value={startYear}
-          onChange={(e) => setStartYear(e.target.value)}
-        />
-        <span>年</span>
-        <select
-          value={startMonth}
-          onChange={(e) => setStartMonth(e.target.value)}
-        >
-          {[...Array(12)].map((_, i) => (
-            <option key={i + 1} value={i + 1}>
-              {i + 1}
-            </option>
-          ))}
-        </select>
-        <span>月</span>
-        <select
-          value={startDate}
-          onChange={(e) => setStartDate(e.target.value)}
-        >
-          {[...Array(31)].map((_, i) => (
-            <option key={i + 1} value={i + 1}>
-              {i + 1}
-            </option>
-          ))}
-        </select>
-        <span>日</span>
+        <SelectDate dateData={startDate} setDateDate={setStartDate} />
       </div>
       <div>
         <span>期間終了日：</span>
-        <input
-          type="number"
-          value={endYear}
-          onChange={(e) => setEndYear(e.target.value)}
-        />
-        <span>年</span>
-        <select value={endMonth} onChange={(e) => setEndMonth(e.target.value)}>
-          {[...Array(12)].map((_, i) => (
-            <option key={i + 1} value={i + 1}>
-              {i + 1}
-            </option>
-          ))}
-        </select>
-        <span>月</span>
-        <select value={endDate} onChange={(e) => setEndDate(e.target.value)}>
-          {[...Array(31)].map((_, i) => (
-            <option key={i + 1} value={i + 1}>
-              {i + 1}
-            </option>
-          ))}
-        </select>
-        <span>日</span>
+        <SelectDate dateData={endDate} setDateDate={setEndDate} />
       </div>
-
       <button onClick={handleCalculate}>計算する</button>
       <p>
         {countHolyday < 0 ? "期間を正しく選んでください" : `${countHolyday}日`}
