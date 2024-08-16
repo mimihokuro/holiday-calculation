@@ -1,8 +1,4 @@
 const SelectOptions = ({ options, handleOption }) => {
-  const handleChangeFrag = (id) => {
-    handleOption(id);
-  };
-
   return (
     <div>
       {options.map((option) => {
@@ -10,8 +6,8 @@ const SelectOptions = ({ options, handleOption }) => {
           <label key={option.id}>
             <input
               type="radio"
-              name="holydayOptions"
-              onClick={() => handleChangeFrag(option.id)}
+              name="holidayOptions"
+              onClick={() => handleOption(option.id)}
             />
             {option.content}
           </label>

@@ -27,7 +27,8 @@ const OPTIONS = [
 ];
 
 function App() {
-  const [countHolyday, setCountHolyday] = useState(0);
+  const [holidays, setHolidays] = useState(0);
+  const [selectedOption, setSelectedOption] = useState(null);
   const today = new Date();
 
   const [startDate, setStartDate] = useState({
@@ -42,16 +43,8 @@ function App() {
     date: 31,
   });
 
-  // 選択されたオプションのIDを取得
-  let selectedOption;
-
-  const handleOption = (id) => {
-    selectedOption = id;
-    console.log(selectedOption);
-  };
-
   const handleCalculate = () => {
-    setCountHolyday(0);
+    setHolidays(0);
     const formatChangeStartDay = new Date(
       `${startDate.year}/${startDate.month}/${startDate.date}`
     );
@@ -60,35 +53,19 @@ function App() {
       `${endDate.year}/${endDate.month}/${endDate.date}`
     );
 
+    let countHoliday = 0;
+
     while (formatChangeStartDay <= formatChangeEndDay) {
       const dayOfWeek = formatChangeStartDay.getDay();
-      switch (selectedOption) {
-        case 1:
-          if (dayOfWeek === 0) {
-            setCountHolyday((prev) => prev + 1);
-          }
-          break;
-
-        case 2:
-          if (dayOfWeek === 0 || dayOfWeek === 6) {
-            setCountHolyday((prev) => prev + 1);
-          }
-          break;
-
-        case 3:
-          break;
-
-        case 4:
-          break;
-
-        case 5:
-          break;
-
-        default:
-          break;
+      if (
+        (selectedOption === 1 && dayOfWeek === 0) ||
+        (selectedOption === 2 && (dayOfWeek === 0 || dayOfWeek === 6))
+      ) {
+        countHoliday++;
       }
       formatChangeStartDay.setDate(formatChangeStartDay.getDate() + 1);
     }
+    setHolidays(countHoliday);
   };
 
   return (
@@ -101,11 +78,9 @@ function App() {
         <span>期間終了日：</span>
         <SelectDate dateData={endDate} setDateData={setEndDate} />
       </div>
-      <SelectOptions options={OPTIONS} handleOption={handleOption} />
+      <SelectOptions options={OPTIONS} handleOption={setSelectedOption} />
       <button onClick={handleCalculate}>計算する</button>
-      <p>
-        {countHolyday < 0 ? "期間を正しく選んでください" : `${countHolyday}日`}
-      </p>
+      <p>{holidays < 0 ? "期間を正しく選んでください" : `${holidays}日`}</p>
     </>
   );
 }
