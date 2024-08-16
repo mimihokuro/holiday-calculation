@@ -38,11 +38,11 @@ function App() {
     <>
       <div>
         <span>期間開始日：</span>
-        <SelectDate dateData={startDate} setDateDate={setStartDate} />
+        <SelectDate dateData={startDate} setDateData={setStartDate} />
       </div>
       <div>
         <span>期間終了日：</span>
-        <SelectDate dateData={endDate} setDateDate={setEndDate} />
+        <SelectDate dateData={endDate} setDateData={setEndDate} />
       </div>
       <button onClick={handleCalculate}>計算する</button>
       <p>

@@ -8,7 +8,7 @@ const SelectDate = ({ dateData, setDateData }) => {
   };
 
   const handleDayChange = (e) => {
-    setDateData((prev) => ({ ...prev, day: Number(e.target.value) }));
+    setDateData((prev) => ({ ...prev, date: Number(e.target.value) }));
   };
 
   return (
@@ -34,4 +34,5 @@ const SelectDate = ({ dateData, setDateData }) => {
     </>
   );
 };
+
 export default SelectDate;
