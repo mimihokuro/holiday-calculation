@@ -26,6 +26,44 @@ const DateCalculator = () => {
   const [option, setOption] = useState("all");
   const [days, setDays] = useState(0);
 
+  const [newYearHolidays, setNewYearHolidays] = useState(0);
+  const countNewYearHolidays = (e) => {
+    if (e.target.value >= 0) {
+      setNewYearHolidays(e.target.value);
+    }
+  };
+
+  const [GWHolidays, setGWHolidays] = useState(0);
+  const countGWHolidays = (e) => {
+    if (e.target.value >= 0) {
+      setGWHolidays(e.target.value);
+    }
+  };
+
+  const [summerHolidays, setSummerHolidays] = useState(0);
+  const countSummerHolidays = (e) => {
+    if (e.target.value >= 0) {
+      setSummerHolidays(e.target.value);
+    }
+  };
+
+  const [otherHolidays, setOtherHolidays] = useState(0);
+  const countOtherHolidays = (e) => {
+    if (e.target.value >= 0) {
+      setOtherHolidays(e.target.value);
+    }
+  };
+
+  const resetCalculateDays = () => {
+    setStartDate(`${today.getFullYear()}-01-01`);
+    setEndDate(`${today.getFullYear()}-12-31`);
+    setOption("all");
+    setNewYearHolidays(0);
+    setGWHolidays(0);
+    setSummerHolidays(0);
+    setOtherHolidays(0);
+  };
+
   const calculateDays = async () => {
     let start = new Date(startDate);
     let end = new Date(endDate);
@@ -56,6 +94,14 @@ const DateCalculator = () => {
       }
 
       start.setDate(start.getDate() + 1);
+    }
+
+    if (option !== "all") {
+      count +=
+        Number(newYearHolidays) +
+        Number(GWHolidays) +
+        Number(summerHolidays) +
+        Number(otherHolidays);
     }
 
     setDays(count);
@@ -90,7 +136,39 @@ const DateCalculator = () => {
           <option value="all">全ての日</option>
         </select>
       </div>
+      <div>
+        <label>年末年始休暇：</label>
+        <input
+          type="number"
+          value={newYearHolidays}
+          onChange={countNewYearHolidays}
+        />
+        日
+      </div>
+      <div>
+        <label>GW休暇：</label>
+        <input type="number" value={GWHolidays} onChange={countGWHolidays} />日
+      </div>
+      <div>
+        <label>夏季休暇：</label>
+        <input
+          type="number"
+          value={summerHolidays}
+          onChange={countSummerHolidays}
+        />
+        日
+      </div>
+      <div>
+        <label>その他休日：</label>
+        <input
+          type="number"
+          value={otherHolidays}
+          onChange={countOtherHolidays}
+        />
+        日<small>その他企業で定める休日の日数を入力してください</small>
+      </div>
       <button onClick={calculateDays}>計算する</button>
+      <button onClick={resetCalculateDays}>リセット</button>
       <div>
         {startDate <= endDate ? `${days} 日` : "正しい期間を選択してください"}
       </div>
