@@ -91,7 +91,9 @@ const DateCalculator = () => {
         </select>
       </div>
       <button onClick={calculateDays}>計算する</button>
-      <div>{days} 日</div>
+      <div>
+        {startDate <= endDate ? `${days} 日` : "正しい期間を選択してください"}
+      </div>
     </div>
   );
 };
