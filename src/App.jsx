@@ -64,6 +64,10 @@ const DateCalculator = () => {
     setOtherHolidays(0);
   };
 
+  const handleOptionChange = (e) => {
+    setOption(e.target.value);
+  };
+
   const calculateDays = async () => {
     let start = new Date(startDate);
     let end = new Date(endDate);
@@ -125,50 +129,117 @@ const DateCalculator = () => {
           onChange={(e) => setEndDate(e.target.value)}
         />
       </div>
+      <table>
+        <tbody>
+          <tr>
+            <th>集計する休日は</th>
+            <td>
+              <label>
+                <input
+                  type="radio"
+                  value="sundays"
+                  checked={option === "sundays"}
+                  onChange={handleOptionChange}
+                />
+                日曜のみ
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  value="weekends"
+                  checked={option === "weekends"}
+                  onChange={handleOptionChange}
+                />
+                土日
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  value="holidays"
+                  checked={option === "holidays"}
+                  onChange={handleOptionChange}
+                />
+                日曜祝日
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  value="weekends_holidays"
+                  checked={option === "weekends_holidays"}
+                  onChange={handleOptionChange}
+                />
+                土日祝日
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  value="holidays_only"
+                  checked={option === "holidays_only"}
+                  onChange={handleOptionChange}
+                />
+                祝日のみ
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  value="all"
+                  checked={option === "all"}
+                  onChange={handleOptionChange}
+                />
+                全ての日
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <th>年末年始休暇</th>
+            <td>
+              <input
+                type="number"
+                value={newYearHolidays}
+                onChange={countNewYearHolidays}
+              />
+              日
+            </td>
+          </tr>
+          <tr>
+            <th>GW休暇</th>
+            <td>
+              <input
+                type="number"
+                value={GWHolidays}
+                onChange={countGWHolidays}
+              />
+              日
+            </td>
+          </tr>
+          <tr>
+            <th>夏季休暇</th>
+            <td>
+              <input
+                type="number"
+                value={summerHolidays}
+                onChange={countSummerHolidays}
+              />
+              日
+            </td>
+          </tr>
+          <tr>
+            <th>その他休日</th>
+            <td>
+              <input
+                type="number"
+                value={otherHolidays}
+                onChange={countOtherHolidays}
+              />
+              日
+            </td>
+          </tr>
+        </tbody>
+      </table>
       <div>
-        <label>オプション：</label>
-        <select value={option} onChange={(e) => setOption(e.target.value)}>
-          <option value="sundays">日曜のみ</option>
-          <option value="weekends">土日</option>
-          <option value="holidays">日曜祝日</option>
-          <option value="weekends_holidays">土日祝日</option>
-          <option value="holidays_only">祝日のみ</option>
-          <option value="all">全ての日</option>
-        </select>
+        <button onClick={calculateDays}>計算する</button>
+        <button onClick={resetCalculateDays}>リセット</button>
       </div>
-      <div>
-        <label>年末年始休暇：</label>
-        <input
-          type="number"
-          value={newYearHolidays}
-          onChange={countNewYearHolidays}
-        />
-        日
-      </div>
-      <div>
-        <label>GW休暇：</label>
-        <input type="number" value={GWHolidays} onChange={countGWHolidays} />日
-      </div>
-      <div>
-        <label>夏季休暇：</label>
-        <input
-          type="number"
-          value={summerHolidays}
-          onChange={countSummerHolidays}
-        />
-        日
-      </div>
-      <div>
-        <label>その他休日：</label>
-        <input
-          type="number"
-          value={otherHolidays}
-          onChange={countOtherHolidays}
-        />
-        日<small>その他企業で定める休日の日数を入力してください</small>
-      </div>
-      <button onClick={calculateDays}>計算する</button>
-      <button onClick={resetCalculateDays}>リセット</button>
       <div>
         {startDate <= endDate ? `${days} 日` : "正しい期間を選択してください"}
       </div>
