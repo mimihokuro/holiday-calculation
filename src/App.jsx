@@ -162,37 +162,44 @@ const DateCalculator = () => {
   };
 
   return (
-    <div>
-      <div>
-        <label>期間開始日：</label>
-        <input
-          type="date"
-          value={startDate}
-          onChange={(e) => setStartDate(e.target.value)}
-        />
+    <div className="bg-white mx-auto max-w-md py-24 sm:px-6 sm:py-32 lg:px-8">
+      <h1 className="font-bold text-2xl text-center">休日計算ツール</h1>
+      <div className="mt-4">
+        <div className="mt-2">
+          <label>期間開始日：</label>
+          <input
+            className="w-140 rounded-md border-0 py-1 pl-2 pr-2 text-left text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            type="date"
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+          />
+        </div>
+        <div className="mt-2">
+          <label>期間終了日：</label>
+          <input
+            className="w-140 rounded-md border-0 py-1 pl-2 pr-2 text-left text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            type="date"
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
+          />
+        </div>
       </div>
-      <div>
-        <label>期間終了日：</label>
-        <input
-          type="date"
-          value={endDate}
-          onChange={(e) => setEndDate(e.target.value)}
-        />
-      </div>
-      <table>
+      <table className="mt-2">
         <tbody>
           <tr>
+            <th className="w-32 text-left">集計する休日は</th>
+            <td className="flex gap-2 flex-wrap  py-1 pl-2 pr-2">
               {optionHolidays.map((oh) => {
                 return (
                   <label key={oh.value}>
-                <input
-                  type="radio"
+                    <input
+                      type="radio"
                       value={oh.value}
                       checked={option === oh.value}
-                  onChange={handleOptionChange}
-                />
+                      onChange={handleOptionChange}
+                    />
                     {oh.title}
-              </label>
+                  </label>
                 );
               })}
             </td>
@@ -201,54 +208,35 @@ const DateCalculator = () => {
             return (
               <tr key={bh.title}>
                 <th className="w-32 text-left">{bh.title}</th>
-              <input
-                type="number"
+                <td className="py-1">
+                  <input
+                    className="w-14 rounded-md border-0 py-1 pl-2 pr-2 text-center text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    type="number"
                     value={bh.value}
                     onChange={bh.doing}
-              />
-              日
-            </td>
-          </tr>
-          <tr>
-            <th>GW休暇</th>
-            <td>
-              <input
-                type="number"
-                value={GWHolidays}
-                onChange={countGWHolidays}
-              />
-              日
-            </td>
-          </tr>
-          <tr>
-            <th>夏季休暇</th>
-            <td>
-              <input
-                type="number"
-                value={summerHolidays}
-                onChange={countSummerHolidays}
-              />
-              日
-            </td>
-          </tr>
-          <tr>
-            <th>その他休日</th>
-            <td>
-              <input
-                type="number"
-                value={otherHolidays}
-                onChange={countOtherHolidays}
-              />
-              日
-            </td>
-          </tr>
+                  />
+                  日
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
-      <div>
-        <button onClick={calculateDays}>計算する</button>
-        <button onClick={resetCalculateDays}>リセット</button>
+      <div className="flex gap-4 justify-center mt-4">
+        <button
+          className="rounded-md px-3.5 py-2.5 text-sm font-semibold text-gray-200 bg-green-600 shadow-sm hover:bg-green-500 active:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          onClick={calculateDays}
+        >
+          計算する
+        </button>
+        <button
+          className="rounded-md px-3.5 py-2.5 text-sm font-semibold text-gray-900 bg-gray-200 shadow-sm hover:bg-gray-100 active:bg-gray-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          onClick={resetCalculateDays}
+        >
+          リセット
+        </button>
       </div>
-      <div>
+      <div className="font-bold text-2xl mt-4 text-center">
         {startDate <= endDate ? `${days} 日` : "正しい期間を選択してください"}
       </div>
     </div>
