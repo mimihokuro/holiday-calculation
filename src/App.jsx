@@ -68,6 +68,56 @@ const DateCalculator = () => {
     setOption(e.target.value);
   };
 
+  const businessHolidays = [
+    {
+      title: "年末年始休暇",
+      value: newYearHolidays,
+      doing: countNewYearHolidays,
+    },
+    {
+      title: "GW休暇",
+      value: GWHolidays,
+      doing: countGWHolidays,
+    },
+    {
+      title: "夏季休暇",
+      value: summerHolidays,
+      doing: countSummerHolidays,
+    },
+    {
+      title: "その他休日",
+      value: otherHolidays,
+      doing: countOtherHolidays,
+    },
+  ];
+
+  const optionHolidays = [
+    {
+      title: "日曜のみ",
+      value: "sundays",
+    },
+    {
+      title: "土日",
+      value: "weekends",
+    },
+    {
+      title: "日曜祝日",
+      value: "holidays",
+    },
+    {
+      title: "土日祝日",
+      value: "weekends_holidays",
+    },
+    {
+      title: "祝日のみ",
+      value: "holidays_only",
+    },
+    {
+      title: "全ての日",
+      value: "all",
+    },
+  ];
+
   const calculateDays = async () => {
     let start = new Date(startDate);
     let end = new Date(endDate);
@@ -132,71 +182,29 @@ const DateCalculator = () => {
       <table>
         <tbody>
           <tr>
-            <th>集計する休日は</th>
-            <td>
-              <label>
+              {optionHolidays.map((oh) => {
+                return (
+                  <label key={oh.value}>
                 <input
                   type="radio"
-                  value="sundays"
-                  checked={option === "sundays"}
+                      value={oh.value}
+                      checked={option === oh.value}
                   onChange={handleOptionChange}
                 />
-                日曜のみ
+                    {oh.title}
               </label>
-              <label>
-                <input
-                  type="radio"
-                  value="weekends"
-                  checked={option === "weekends"}
-                  onChange={handleOptionChange}
-                />
-                土日
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  value="holidays"
-                  checked={option === "holidays"}
-                  onChange={handleOptionChange}
-                />
-                日曜祝日
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  value="weekends_holidays"
-                  checked={option === "weekends_holidays"}
-                  onChange={handleOptionChange}
-                />
-                土日祝日
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  value="holidays_only"
-                  checked={option === "holidays_only"}
-                  onChange={handleOptionChange}
-                />
-                祝日のみ
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  value="all"
-                  checked={option === "all"}
-                  onChange={handleOptionChange}
-                />
-                全ての日
-              </label>
+                );
+              })}
             </td>
           </tr>
-          <tr>
-            <th>年末年始休暇</th>
-            <td>
+          {businessHolidays.map((bh) => {
+            return (
+              <tr key={bh.title}>
+                <th className="w-32 text-left">{bh.title}</th>
               <input
                 type="number"
-                value={newYearHolidays}
-                onChange={countNewYearHolidays}
+                    value={bh.value}
+                    onChange={bh.doing}
               />
               日
             </td>
