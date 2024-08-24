@@ -134,7 +134,10 @@ const DateCalculator = () => {
         (dayOfWeek === 0 || dayOfWeek === 6)
       ) {
         count++;
-      } else if (option === "holidays" && (await isHoliday(start))) {
+      } else if (
+        option === "holidays" &&
+        (dayOfWeek === 0 || (await isHoliday(start)))
+      ) {
         count++;
       } else if (
         option === "weekends_holidays" &&
