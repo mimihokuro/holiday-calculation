@@ -62,6 +62,7 @@ const DateCalculator = () => {
     setGWHolidays(0);
     setSummerHolidays(0);
     setOtherHolidays(0);
+    setDays(0);
   };
 
   const handleOptionChange = (e) => {
