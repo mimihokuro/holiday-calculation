@@ -24,6 +24,7 @@ const DateCalculator = () => {
 
   const [endDate, setEndDate] = useState(`${today.getFullYear()}-12-31`);
   const [option, setOption] = useState("sundays");
+  const [between, setBetween] = useState(0);
   const [days, setDays] = useState(0);
 
   const [newYearHolidays, setNewYearHolidays] = useState(0);
@@ -62,6 +63,7 @@ const DateCalculator = () => {
     setGWHolidays(0);
     setSummerHolidays(0);
     setOtherHolidays(0);
+    setBetween(0);
     setDays(0);
   };
 
@@ -118,6 +120,7 @@ const DateCalculator = () => {
   const calculateDays = async () => {
     let start = new Date(startDate);
     let end = new Date(endDate);
+    setBetween((end - start) / (24 * 60 * 60 * 1000) + 1);
 
     let count = 0;
 
@@ -148,11 +151,11 @@ const DateCalculator = () => {
       start.setDate(start.getDate() + 1);
     }
 
-      count +=
-        Number(newYearHolidays) +
-        Number(GWHolidays) +
-        Number(summerHolidays) +
-        Number(otherHolidays);
+    count +=
+      Number(newYearHolidays) +
+      Number(GWHolidays) +
+      Number(summerHolidays) +
+      Number(otherHolidays);
 
     setDays(count);
   };
@@ -232,9 +235,26 @@ const DateCalculator = () => {
           リセット
         </button>
       </div>
-      <div className="font-bold text-2xl mt-4 text-center">
-        {startDate <= endDate ? `${days} 日` : "正しい期間を選択してください"}
-      </div>
+      <table className="font-bold mt-4 mx-auto text-center">
+        <thead>
+          <tr>
+            <th className="px-2 border-black border-2">期間日数</th>
+            <th className="px-2 border-black border-2">休日数</th>
+            <th className="px-2 border-black border-2">期間日数 - 休日数</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td className="p-2 border-black border-2">{between}日</td>
+            <td className="p-2 border-black border-2">
+              {startDate <= endDate
+                ? `${days} 日`
+                : "正しい期間を選択してください"}
+            </td>
+            <td className="p-2 border-black border-2">{between - days} 日</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   );
 };
