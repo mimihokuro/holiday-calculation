@@ -23,7 +23,7 @@ const DateCalculator = () => {
   const [startDate, setStartDate] = useState(`${today.getFullYear()}-01-01`);
 
   const [endDate, setEndDate] = useState(`${today.getFullYear()}-12-31`);
-  const [option, setOption] = useState("all");
+  const [option, setOption] = useState("sundays");
   const [days, setDays] = useState(0);
 
   const [newYearHolidays, setNewYearHolidays] = useState(0);
@@ -57,7 +57,7 @@ const DateCalculator = () => {
   const resetCalculateDays = () => {
     setStartDate(`${today.getFullYear()}-01-01`);
     setEndDate(`${today.getFullYear()}-12-31`);
-    setOption("all");
+    setOption("sundays");
     setNewYearHolidays(0);
     setGWHolidays(0);
     setSummerHolidays(0);
@@ -113,10 +113,6 @@ const DateCalculator = () => {
       title: "祝日のみ",
       value: "holidays_only",
     },
-    {
-      title: "全ての日",
-      value: "all",
-    },
   ];
 
   const calculateDays = async () => {
@@ -147,20 +143,16 @@ const DateCalculator = () => {
         count++;
       } else if (option === "holidays_only" && (await isHoliday(start))) {
         count++;
-      } else if (option === "all") {
-        count++;
       }
 
       start.setDate(start.getDate() + 1);
     }
 
-    if (option !== "all") {
       count +=
         Number(newYearHolidays) +
         Number(GWHolidays) +
         Number(summerHolidays) +
         Number(otherHolidays);
-    }
 
     setDays(count);
   };
