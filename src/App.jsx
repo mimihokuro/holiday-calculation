@@ -163,7 +163,7 @@ const DateCalculator = () => {
   return (
     <div className="bg-white mx-auto max-w-md py-24 sm:px-6 sm:py-32 lg:px-8">
       <h1 className="font-bold text-2xl text-center">休日計算ツール</h1>
-      <div className="mt-4">
+      <div className="flex gap-3 mt-4 items-center">
         <div className="mt-2">
           <input
             className="w-140 rounded-md border-0 py-1 pl-2 pr-2 text-left text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -188,7 +188,7 @@ const DateCalculator = () => {
         <tbody>
           <tr>
             <th className="w-32 text-left">集計する休日は</th>
-            <td className="flex gap-2 flex-wrap  py-1 pl-2 pr-2">
+            <td className="flex gap-2 flex-wrap py-1 pl-2 pr-2">
               {optionHolidays.map((oh) => {
                 return (
                   <label key={oh.value}>
@@ -239,20 +239,20 @@ const DateCalculator = () => {
       <table className="font-bold mt-4 mx-auto text-center">
         <thead>
           <tr>
-            <th className="px-2 border-black border-2">期間日数</th>
-            <th className="px-2 border-black border-2">休日数</th>
-            <th className="px-2 border-black border-2">期間日数 - 休日数</th>
+            <th className="px-2 border-black border">期間日数</th>
+            <th className="px-2 border-black border">休日数</th>
+            <th className="px-2 border-black border">期間日数 - 休日数</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td className="p-2 border-black border-2">{between}日</td>
-            <td className="p-2 border-black border-2">
+            <td className="p-2 border-black border">{between}日</td>
+            <td className="p-2 border-black border">
               {startDate <= endDate
                 ? `${days} 日`
                 : "正しい期間を選択してください"}
             </td>
-            <td className="p-2 border-black border-2">{between - days} 日</td>
+            <td className="p-2 border-black border">{between - days} 日</td>
           </tr>
         </tbody>
       </table>
