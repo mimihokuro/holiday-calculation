@@ -1,4 +1,5 @@
 import { useState } from "react";
+import SelectDate from "./components/SelectDate";
 
 const DateCalculator = () => {
   const isHoliday = async (date) => {
@@ -21,8 +22,8 @@ const DateCalculator = () => {
   const today = new Date();
 
   const [startDate, setStartDate] = useState(`${today.getFullYear()}-01-01`);
-
   const [endDate, setEndDate] = useState(`${today.getFullYear()}-12-31`);
+  const dateData = { startDate, setStartDate, endDate, setEndDate };
   const [option, setOption] = useState("sundays");
   const [between, setBetween] = useState(0);
   const [days, setDays] = useState(0);
@@ -163,27 +164,7 @@ const DateCalculator = () => {
   return (
     <div className="bg-white mx-auto max-w-md py-24 sm:px-6 sm:py-32 lg:px-8">
       <h1 className="font-bold text-2xl text-center">休日計算ツール</h1>
-      <div className="flex gap-3 mt-4 items-center">
-        <div className="mt-2">
-          <input
-            className="w-140 rounded-md border-0 py-1 pl-2 pr-2 text-left text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            type="date"
-            value={startDate}
-            aria-labelledby="期間開始日"
-            onChange={(e) => setStartDate(e.target.value)}
-          />
-        </div>
-        ＞
-        <div className="mt-2">
-          <input
-            className="w-140 rounded-md border-0 py-1 pl-2 pr-2 text-left text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            type="date"
-            value={endDate}
-            aria-labelledby="期間終了日"
-            onChange={(e) => setEndDate(e.target.value)}
-          />
-        </div>
-      </div>
+      <SelectDate dateData={dateData} />
       <table className="mt-2">
         <tbody>
           <tr>
