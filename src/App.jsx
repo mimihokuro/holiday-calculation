@@ -2,6 +2,7 @@ import { useState } from "react";
 import SelectDate from "./components/SelectDate";
 import SelectOptions from "./components/SelectOptions";
 import ExecuteButton from "./components/ExecuteButton";
+import DisplayResult from "./components/DisplayResult";
 
 const DateCalculator = () => {
   const isHoliday = async (date) => {
@@ -170,6 +171,7 @@ const DateCalculator = () => {
     handleOptionChange,
   };
   const buttonFunc = { calculateDays, resetCalculateDays };
+  const result = { between, days, startDate, endDate };
 
   return (
     <div className="bg-white mx-auto max-w-md py-24 sm:px-6 sm:py-32 lg:px-8">
@@ -177,26 +179,7 @@ const DateCalculator = () => {
       <SelectDate dateData={dateData} />
       <SelectOptions optionData={optionData} />
       <ExecuteButton buttonFunc={buttonFunc} />
-      <table className="font-bold mt-4 mx-auto text-center">
-        <thead>
-          <tr>
-            <th className="px-2 border-black border">期間日数</th>
-            <th className="px-2 border-black border">休日数</th>
-            <th className="px-2 border-black border">期間日数 - 休日数</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td className="p-2 border-black border">{between}日</td>
-            <td className="p-2 border-black border">
-              {startDate <= endDate
-                ? `${days} 日`
-                : "正しい期間を選択してください"}
-            </td>
-            <td className="p-2 border-black border">{between - days} 日</td>
-          </tr>
-        </tbody>
-      </table>
+      <DisplayResult result={result} />
     </div>
   );
 };
