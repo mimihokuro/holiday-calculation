@@ -1,6 +1,7 @@
 import { useState } from "react";
 import SelectDate from "./components/SelectDate";
 import SelectOptions from "./components/SelectOptions";
+import ExecuteButton from "./components/ExecuteButton";
 
 const DateCalculator = () => {
   const isHoliday = async (date) => {
@@ -168,26 +169,14 @@ const DateCalculator = () => {
     optionHolidays,
     handleOptionChange,
   };
+  const buttonFunc = { calculateDays, resetCalculateDays };
 
   return (
     <div className="bg-white mx-auto max-w-md py-24 sm:px-6 sm:py-32 lg:px-8">
       <h1 className="font-bold text-2xl text-center">休日計算ツール</h1>
       <SelectDate dateData={dateData} />
       <SelectOptions optionData={optionData} />
-      <div className="flex gap-4 justify-center mt-4">
-        <button
-          className="rounded-md px-3.5 py-2.5 text-sm font-semibold text-gray-200 bg-green-600 shadow-sm hover:bg-green-500 active:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-          onClick={calculateDays}
-        >
-          計算する
-        </button>
-        <button
-          className="rounded-md px-3.5 py-2.5 text-sm font-semibold text-gray-900 bg-gray-200 shadow-sm hover:bg-gray-100 active:bg-gray-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-          onClick={resetCalculateDays}
-        >
-          リセット
-        </button>
-      </div>
+      <ExecuteButton buttonFunc={buttonFunc} />
       <table className="font-bold mt-4 mx-auto text-center">
         <thead>
           <tr>
