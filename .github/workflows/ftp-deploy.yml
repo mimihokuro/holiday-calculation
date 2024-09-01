@@ -1,0 +1,34 @@
+name: Build and Deploy to FTP
+
+on:
+  push:
+    branches:
+      - main # 'main'ブランチへのプッシュをトリガー
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16" # Node.jsのバージョンを指定
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build # ビルドコマンド
+
+      - name: FTP Deploy
+        uses: SamKirkland/FTP-Deploy-Action@4.3.0
+        with:
+          ftp-server: ${{ secrets.FTP_SERVER }}
+          ftp-username: ${{ secrets.FTP_USERNAME }}
+          ftp-password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: dist/ # ビルド結果のディレクトリ
+          server-dir: ${{ secrets.FTP_SERVER_DIR }}
