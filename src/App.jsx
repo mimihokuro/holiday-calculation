@@ -3,6 +3,7 @@ import SelectDate from "./components/SelectDate";
 import SelectOptions from "./components/SelectOptions";
 import ExecuteButton from "./components/ExecuteButton";
 import DisplayResult from "./components/DisplayResult";
+import { Box, Heading } from "@chakra-ui/react";
 
 const DateCalculator = () => {
   const isHoliday = async (date) => {
@@ -31,30 +32,30 @@ const DateCalculator = () => {
   const [days, setDays] = useState(0);
 
   const [newYearHolidays, setNewYearHolidays] = useState(0);
-  const countNewYearHolidays = (e) => {
-    if (e.target.value >= 0) {
-      setNewYearHolidays(e.target.value);
+  const countNewYearHolidays = (valueAsString, valueAsNumber) => {
+    if (valueAsNumber >= 0) {
+      setNewYearHolidays(valueAsNumber);
     }
   };
 
   const [GWHolidays, setGWHolidays] = useState(0);
-  const countGWHolidays = (e) => {
-    if (e.target.value >= 0) {
-      setGWHolidays(e.target.value);
+  const countGWHolidays = (valueAsString, valueAsNumber) => {
+    if (valueAsNumber >= 0) {
+      setGWHolidays(valueAsNumber);
     }
   };
 
   const [summerHolidays, setSummerHolidays] = useState(0);
-  const countSummerHolidays = (e) => {
-    if (e.target.value >= 0) {
-      setSummerHolidays(e.target.value);
+  const countSummerHolidays = (valueAsString, valueAsNumber) => {
+    if (valueAsNumber >= 0) {
+      setSummerHolidays(valueAsNumber);
     }
   };
 
   const [otherHolidays, setOtherHolidays] = useState(0);
-  const countOtherHolidays = (e) => {
-    if (e.target.value >= 0) {
-      setOtherHolidays(e.target.value);
+  const countOtherHolidays = (valueAsString, valueAsNumber) => {
+    if (valueAsNumber >= 0) {
+      setOtherHolidays(valueAsNumber);
     }
   };
 
@@ -70,8 +71,8 @@ const DateCalculator = () => {
     setDays(0);
   };
 
-  const handleOptionChange = (e) => {
-    setOption(e.target.value);
+  const handleOptionChange = (value) => {
+    setOption(value);
   };
 
   const businessHolidays = [
@@ -174,13 +175,34 @@ const DateCalculator = () => {
   const result = { between, days, startDate, endDate };
 
   return (
-    <div className="bg-white mx-auto max-w-md py-24 sm:px-6 sm:py-32 lg:px-8">
-      <h1 className="font-bold text-2xl text-center">休日計算ツール</h1>
-      <SelectDate dateData={dateData} />
-      <SelectOptions optionData={optionData} />
-      <ExecuteButton buttonFunc={buttonFunc} />
-      <DisplayResult result={result} />
-    </div>
+    <>
+      <Heading
+        as="h1"
+        size="xl"
+        noOfLines={1}
+        bg="teal"
+        color="white"
+        p={2}
+        textAlign="center"
+      >
+        休日計算ツール
+      </Heading>
+      <Box
+        display="flex"
+        flexDirection="column"
+        bg="white"
+        justifyContent="center"
+        alignItems="center"
+        maxW="lg"
+        mx="auto"
+        p={8}
+      >
+        <SelectDate dateData={dateData} />
+        <SelectOptions optionData={optionData} />
+        <ExecuteButton buttonFunc={buttonFunc} />
+        <DisplayResult result={result} />
+      </Box>
+    </>
   );
 };
 
