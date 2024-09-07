@@ -3,9 +3,11 @@ import SelectDate from "./components/SelectDate";
 import SelectOptions from "./components/SelectOptions";
 import ExecuteButton from "./components/ExecuteButton";
 import DisplayResult from "./components/DisplayResult";
-import { Box, Heading } from "@chakra-ui/react";
+import { Box, Flex, Heading, ListItem, UnorderedList } from "@chakra-ui/react";
 
 const DateCalculator = () => {
+  const [nationalHolidaysList, setNationalHolidaysList] = useState([]);
+
   const isHoliday = async (date) => {
     try {
       const response = await fetch(
@@ -15,9 +17,13 @@ const DateCalculator = () => {
         throw new Error("Error");
       }
       const nationalHolidays = await response.json();
-      return Object.keys(nationalHolidays).includes(
-        date.toISOString().split("T")[0]
-      );
+      const dateString = date.toISOString().split("T")[0];
+      const isNH = nationalHolidays[dateString];
+
+      if (isNH !== undefined) {
+        setNationalHolidaysList((list) => [...list, isNH]);
+      }
+      return Object.keys(nationalHolidays).includes(dateString);
     } catch (error) {
       console.log(error);
     }
@@ -125,6 +131,7 @@ const DateCalculator = () => {
     let start = new Date(startDate);
     let end = new Date(endDate);
     setBetween((end - start) / (24 * 60 * 60 * 1000) + 1);
+    setNationalHolidaysList([]);
 
     let count = 0;
 
@@ -187,21 +194,31 @@ const DateCalculator = () => {
       >
         休日計算ツール
       </Heading>
-      <Box
+      <Flex
         display="flex"
-        flexDirection="column"
         bg="white"
         justifyContent="center"
-        alignItems="center"
         maxW="lg"
+        gap={8}
         mx="auto"
         p={8}
       >
-        <SelectDate dateData={dateData} />
-        <SelectOptions optionData={optionData} />
-        <ExecuteButton buttonFunc={buttonFunc} />
-        <DisplayResult result={result} />
-      </Box>
+        <Box>
+          <SelectDate dateData={dateData} />
+          <SelectOptions optionData={optionData} />
+          <ExecuteButton buttonFunc={buttonFunc} />
+        </Box>
+        <Box>
+          <DisplayResult result={result} />
+          <Box mt={8}>
+            <UnorderedList>
+              {nationalHolidaysList.map((nhl, index) => {
+                return <ListItem key={index}>{nhl}</ListItem>;
+              })}
+            </UnorderedList>
+          </Box>
+        </Box>
+      </Flex>
     </>
   );
 };

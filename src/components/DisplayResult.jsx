@@ -16,7 +16,7 @@ const DisplayResult = ({ result }) => {
   return (
     <>
       {startDate <= endDate ? (
-        <TableContainer mt="8">
+        <TableContainer>
           <Table>
             <Thead>
               <Tr>
