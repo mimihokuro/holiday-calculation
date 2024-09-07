@@ -202,6 +202,7 @@ const DateCalculator = () => {
         gap={8}
         mx="auto"
         p={8}
+        flexDirection={{ base: "column", lg: "row" }}
       >
         <Box>
           <SelectDate dateData={dateData} />
