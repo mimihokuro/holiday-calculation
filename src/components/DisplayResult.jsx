@@ -1,6 +1,5 @@
 import {
   Table,
-  Thead,
   Tr,
   Th,
   Td,
@@ -9,60 +8,51 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-const THs = ["期間日数", "休日数", "期間日数 - 休日数"];
-
 const DisplayResult = ({ result }) => {
   const { between, days, startDate, endDate } = result;
+
+  const TABLE_CONTENTS = [
+    { label: "期間日数", value: between },
+    { label: "休日数", value: days },
+    { label: "期間日数 - 休日数", value: between - days },
+  ];
+
   return (
     <>
       {startDate <= endDate ? (
         <TableContainer>
           <Table>
-            <Thead>
-              <Tr>
-                {THs.map((data, index) => {
-                  return (
-                    <Th
-                      key={index}
-                      textAlign="center"
-                      border="1px"
-                      borderColor="#dddddd"
-                      fontWeight="bold"
-                      fontSize={16}
-                      w="md"
-                    >
-                      {data}
-                    </Th>
-                  );
-                })}
-              </Tr>
-            </Thead>
             <Tbody>
-              <Tr>
-                {[
-                  { label: between },
-                  { label: days },
-                  { label: between - days },
-                ].map((data, index) => {
-                  return (
+              {TABLE_CONTENTS.map((data, index) => {
+                return (
+                  <Tr key={index}>
+                    <Th
+                      border="1px"
+                      borderColor="#dddddd"
+                      fontWeight="bold"
+                      fontSize={14}
+                      backgroundColor="#f0f0f0"
+                      py={4}
+                    >
+                      {data.label}
+                    </Th>
                     <Td
-                      key={index}
                       textAlign="center"
                       border="1px"
                       borderColor="#dddddd"
                       fontWeight="bold"
-                      w="md"
+                      py={4}
                     >
-                      {data.label} 日
+                      {data.value} 日
                     </Td>
-                  );
-                })}
-              </Tr>
+                  </Tr>
+                );
+              })}
             </Tbody>
           </Table>
         </TableContainer>
       ) : (
-        <Text color="palevioletred" mt="8" fontWeight="bold">
+        <Text color="palevioletred" fontWeight="bold">
           正しい期間を選択してください
         </Text>
       )}
