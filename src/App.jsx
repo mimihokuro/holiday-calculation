@@ -202,16 +202,23 @@ const DateCalculator = () => {
         gap={4}
         mx="auto"
         p={8}
-        flexDirection={{ base: "column", lg: "row" }}
+        flexDirection={{ base: "column", md: "row" }}
       >
         <Box border="1px" borderColor="#dddddd" px={4} py={8} borderRadius={8}>
           <SelectDate dateData={dateData} />
           <SelectOptions optionData={optionData} />
           <ExecuteButton buttonFunc={buttonFunc} />
         </Box>
-        <Box border="1px" borderColor="#dddddd" px={4} py={8} borderRadius={8}>
+        <Box
+          border="1px"
+          borderColor="#dddddd"
+          px={4}
+          py={8}
+          borderRadius={8}
+          minW={320}
+        >
           <DisplayResult result={result} />
-          <Box mt={8}>
+          <Box mt={8} maxH={320} overflowY="scroll">
             <UnorderedList>
               {nationalHolidaysList.map((nhl, index) => {
                 return <ListItem key={index}>{nhl}</ListItem>;
