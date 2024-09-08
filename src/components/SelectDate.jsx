@@ -5,7 +5,11 @@ const SelectDate = ({ dateData }) => {
   const { startDate, setStartDate, endDate, setEndDate } = dateData;
   return (
     <>
-      <Stack direction="row" placeItems="center" gap={4}>
+      <Stack
+        placeItems="center"
+        gap={4}
+        direction={{ base: "column", sm: "row" }}
+      >
         <Input
           type="date"
           variant="filled"
@@ -15,7 +19,9 @@ const SelectDate = ({ dateData }) => {
           aria-labelledby="期間開始日"
           onChange={(e) => setStartDate(e.target.value)}
         />
-        <ArrowRightIcon />
+        <ArrowRightIcon
+          transform={{ base: "rotate(90deg)", sm: "rotate(0deg)" }}
+        />
         <Input
           type="date"
           variant="filled"
