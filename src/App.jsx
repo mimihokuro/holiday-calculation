@@ -198,18 +198,18 @@ const DateCalculator = () => {
         display="flex"
         bg="white"
         justifyContent="center"
-        maxW="lg"
-        gap={8}
+        maxW={800}
+        gap={4}
         mx="auto"
         p={8}
         flexDirection={{ base: "column", lg: "row" }}
       >
-        <Box>
+        <Box border="1px" borderColor="#dddddd" px={4} py={8} borderRadius={8}>
           <SelectDate dateData={dateData} />
           <SelectOptions optionData={optionData} />
           <ExecuteButton buttonFunc={buttonFunc} />
         </Box>
-        <Box>
+        <Box border="1px" borderColor="#dddddd" px={4} py={8} borderRadius={8}>
           <DisplayResult result={result} />
           <Box mt={8}>
             <UnorderedList>
