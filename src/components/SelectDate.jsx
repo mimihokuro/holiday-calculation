@@ -1,5 +1,5 @@
 import { ArrowRightIcon } from "@chakra-ui/icons";
-import { Input, Stack } from "@chakra-ui/react";
+import { Input, Stack, Text } from "@chakra-ui/react";
 
 const SelectDate = ({ dateData }) => {
   const { startDate, setStartDate, endDate, setEndDate } = dateData;
@@ -32,6 +32,11 @@ const SelectDate = ({ dateData }) => {
           onChange={(e) => setEndDate(e.target.value)}
         />
       </Stack>
+      {startDate > endDate ? (
+        <Text color="palevioletred" fontWeight="bold" textAlign="center" mt={2}>
+          正しい期間を選択してください
+        </Text>
+      ) : null}
     </>
   );
 };

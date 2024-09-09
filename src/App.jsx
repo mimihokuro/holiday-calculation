@@ -179,7 +179,7 @@ const DateCalculator = () => {
     handleOptionChange,
   };
   const buttonFunc = { calculateDays, resetCalculateDays };
-  const result = { between, days, startDate, endDate };
+  const result = { between, days };
 
   return (
     <>

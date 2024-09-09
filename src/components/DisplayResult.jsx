@@ -1,15 +1,7 @@
-import {
-  Table,
-  Tr,
-  Th,
-  Td,
-  Tbody,
-  TableContainer,
-  Text,
-} from "@chakra-ui/react";
+import { Table, Tr, Th, Td, Tbody, TableContainer } from "@chakra-ui/react";
 
 const DisplayResult = ({ result }) => {
-  const { between, days, startDate, endDate } = result;
+  const { between, days } = result;
 
   const TABLE_CONTENTS = [
     { label: "期間日数", value: between },
@@ -19,7 +11,7 @@ const DisplayResult = ({ result }) => {
 
   return (
     <>
-      {startDate <= endDate ? (
+      {
         <TableContainer>
           <Table>
             <Tbody>
@@ -51,11 +43,7 @@ const DisplayResult = ({ result }) => {
             </Tbody>
           </Table>
         </TableContainer>
-      ) : (
-        <Text color="palevioletred" fontWeight="bold">
-          正しい期間を選択してください
-        </Text>
-      )}
+      }
     </>
   );
 };
