@@ -3,10 +3,19 @@ import SelectDate from "./components/SelectDate";
 import SelectOptions from "./components/SelectOptions";
 import ExecuteButton from "./components/ExecuteButton";
 import DisplayResult from "./components/DisplayResult";
-import { Box, Flex, Heading, ListItem, UnorderedList } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Heading,
+  ListItem,
+  Text,
+  UnorderedList,
+} from "@chakra-ui/react";
+import { WarningIcon } from "@chakra-ui/icons";
 
 const DateCalculator = () => {
   const [nationalHolidaysList, setNationalHolidaysList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const isHoliday = async (date) => {
     try {
@@ -75,6 +84,7 @@ const DateCalculator = () => {
     setOtherHolidays(0);
     setBetween(0);
     setDays(0);
+    setNationalHolidaysList([]);
   };
 
   const handleOptionChange = (value) => {
@@ -128,6 +138,7 @@ const DateCalculator = () => {
   ];
 
   const calculateDays = async () => {
+    setIsLoading(true);
     let start = new Date(startDate);
     let end = new Date(endDate);
     setBetween((end - start) / (24 * 60 * 60 * 1000) + 1);
@@ -169,6 +180,7 @@ const DateCalculator = () => {
       Number(otherHolidays);
 
     setDays(count);
+    setIsLoading(false);
   };
 
   const dateData = { startDate, setStartDate, endDate, setEndDate };
@@ -217,14 +229,23 @@ const DateCalculator = () => {
           borderRadius={8}
           minW={320}
         >
-          <DisplayResult result={result} />
-          <Box mt={8} maxH={320} overflowY="scroll">
-            <UnorderedList>
-              {nationalHolidaysList.map((nhl, index) => {
-                return <ListItem key={index}>{nhl}</ListItem>;
-              })}
-            </UnorderedList>
-          </Box>
+          {isLoading ? (
+            <Flex placeContent="center" placeItems="center" gap={2} h="100%">
+              <WarningIcon />
+              <Text>計算中...</Text>
+            </Flex>
+          ) : (
+            <>
+              <DisplayResult result={result} />
+              <Box mt={8} maxH={320} overflowY="scroll">
+                <UnorderedList>
+                  {nationalHolidaysList.map((nhl, index) => {
+                    return <ListItem key={index}>{nhl}</ListItem>;
+                  })}
+                </UnorderedList>
+              </Box>
+            </>
+          )}
         </Box>
       </Flex>
     </>
