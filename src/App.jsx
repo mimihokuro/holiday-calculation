@@ -3,15 +3,9 @@ import SelectDate from "./components/SelectDate";
 import SelectOptions from "./components/SelectOptions";
 import ExecuteButton from "./components/ExecuteButton";
 import DisplayResult from "./components/DisplayResult";
-import {
-  Box,
-  Flex,
-  Heading,
-  ListItem,
-  Text,
-  UnorderedList,
-} from "@chakra-ui/react";
+import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import { WarningIcon } from "@chakra-ui/icons";
+import DisplayHolidaysList from "./components/DisplayHolidaysList";
 
 const DateCalculator = () => {
   const [nationalHolidaysList, setNationalHolidaysList] = useState([]);
@@ -237,13 +231,9 @@ const DateCalculator = () => {
           ) : (
             <>
               <DisplayResult result={result} />
-              <Box mt={8} maxH={320} overflowY="scroll">
-                <UnorderedList>
-                  {nationalHolidaysList.map((nhl, index) => {
-                    return <ListItem key={index}>{nhl}</ListItem>;
-                  })}
-                </UnorderedList>
-              </Box>
+              <DisplayHolidaysList
+                nationalHolidaysList={nationalHolidaysList}
+              />
             </>
           )}
         </Box>
