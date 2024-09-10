@@ -24,7 +24,11 @@ const DateCalculator = () => {
       const isNH = nationalHolidays[dateString];
 
       if (isNH !== undefined) {
-        setNationalHolidaysList((list) => [...list, isNH]);
+        console.log(dateString);
+        setNationalHolidaysList((list) => [
+          ...list,
+          { date: dateString, value: isNH },
+        ]);
       }
       return Object.keys(nationalHolidays).includes(dateString);
     } catch (error) {
@@ -221,7 +225,7 @@ const DateCalculator = () => {
           px={4}
           py={8}
           borderRadius={8}
-          minW={320}
+          minW={360}
         >
           {isLoading ? (
             <Flex placeContent="center" placeItems="center" gap={2} h="100%">
