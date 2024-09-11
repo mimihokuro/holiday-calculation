@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 
 const SelectOptions = ({ optionData }) => {
-  const { option, businessHolidays, optionHolidays, handleOptionChange } =
+  const { option, BUSINESS_HOLIDAYS, OPTION_HOLIDAYS, handleOptionChange } =
     optionData;
 
   return (
@@ -30,7 +30,7 @@ const SelectOptions = ({ optionData }) => {
             <Td display="flex" gap={2} flexWrap="wrap" py={1} px={2}>
               <RadioGroup value={option} onChange={handleOptionChange}>
                 <Stack direction="row" flexWrap="wrap">
-                  {optionHolidays.map((oh) => {
+                  {OPTION_HOLIDAYS.map((oh) => {
                     return (
                       <Radio key={oh.value} colorScheme="teal" value={oh.value}>
                         {oh.title}
@@ -41,7 +41,7 @@ const SelectOptions = ({ optionData }) => {
               </RadioGroup>
             </Td>
           </Tr>
-          {businessHolidays.map((bh) => {
+          {BUSINESS_HOLIDAYS.map((bh) => {
             return (
               <Tr key={bh.title}>
                 <Th w={32} textAlign="left">

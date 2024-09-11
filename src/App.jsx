@@ -8,41 +8,14 @@ import { WarningIcon } from "@chakra-ui/icons";
 import DisplayHolidaysList from "./components/DisplayHolidaysList";
 
 const DateCalculator = () => {
-  const [nationalHolidaysList, setNationalHolidaysList] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const isHoliday = async (date) => {
-    try {
-      const response = await fetch(
-        "https://holidays-jp.github.io/api/v1/date.json"
-      );
-      if (!response.ok) {
-        throw new Error("Error");
-      }
-      const nationalHolidays = await response.json();
-      const dateString = date.toISOString().split("T")[0];
-      const isNH = nationalHolidays[dateString];
-
-      if (isNH !== undefined) {
-        console.log(dateString);
-        setNationalHolidaysList((list) => [
-          ...list,
-          { date: dateString, value: isNH },
-        ]);
-      }
-      return Object.keys(nationalHolidays).includes(dateString);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const today = new Date();
-
   const [startDate, setStartDate] = useState(`${today.getFullYear()}-01-01`);
   const [endDate, setEndDate] = useState(`${today.getFullYear()}-12-31`);
   const [option, setOption] = useState("sundays");
+  const [nationalHolidaysList, setNationalHolidaysList] = useState([]);
   const [between, setBetween] = useState(0);
   const [days, setDays] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [newYearHolidays, setNewYearHolidays] = useState(0);
   const countNewYearHolidays = (valueAsString, valueAsNumber) => {
@@ -72,24 +45,7 @@ const DateCalculator = () => {
     }
   };
 
-  const resetCalculateDays = () => {
-    setStartDate(`${today.getFullYear()}-01-01`);
-    setEndDate(`${today.getFullYear()}-12-31`);
-    setOption("sundays");
-    setNewYearHolidays(0);
-    setGWHolidays(0);
-    setSummerHolidays(0);
-    setOtherHolidays(0);
-    setBetween(0);
-    setDays(0);
-    setNationalHolidaysList([]);
-  };
-
-  const handleOptionChange = (value) => {
-    setOption(value);
-  };
-
-  const businessHolidays = [
+  const BUSINESS_HOLIDAYS = [
     {
       title: "年末年始休暇",
       value: newYearHolidays,
@@ -112,7 +68,7 @@ const DateCalculator = () => {
     },
   ];
 
-  const optionHolidays = [
+  const OPTION_HOLIDAYS = [
     {
       title: "日曜のみ",
       value: "sundays",
@@ -134,6 +90,34 @@ const DateCalculator = () => {
       value: "holidays_only",
     },
   ];
+
+  const isHoliday = async (date) => {
+    try {
+      const response = await fetch(
+        "https://holidays-jp.github.io/api/v1/date.json"
+      );
+      if (!response.ok) {
+        throw new Error("Error");
+      }
+      const nationalHolidays = await response.json();
+      const dateString = date.toISOString().split("T")[0];
+      const isNH = nationalHolidays[dateString];
+
+      if (isNH !== undefined) {
+        setNationalHolidaysList((list) => [
+          ...list,
+          { date: dateString, value: isNH },
+        ]);
+      }
+      return Object.keys(nationalHolidays).includes(dateString);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleOptionChange = (value) => {
+    setOption(value);
+  };
 
   const calculateDays = async () => {
     setIsLoading(true);
@@ -181,40 +165,61 @@ const DateCalculator = () => {
     setIsLoading(false);
   };
 
+  const resetCalculateDays = () => {
+    setStartDate(`${today.getFullYear()}-01-01`);
+    setEndDate(`${today.getFullYear()}-12-31`);
+    setOption("sundays");
+    setNewYearHolidays(0);
+    setGWHolidays(0);
+    setSummerHolidays(0);
+    setOtherHolidays(0);
+    setBetween(0);
+    setDays(0);
+    setNationalHolidaysList([]);
+  };
+
   const dateData = { startDate, setStartDate, endDate, setEndDate };
   const optionData = {
     option,
-    businessHolidays,
-    optionHolidays,
+    BUSINESS_HOLIDAYS,
+    OPTION_HOLIDAYS,
     handleOptionChange,
   };
   const buttonFunc = { calculateDays, resetCalculateDays };
   const result = { between, days };
 
   return (
-    <>
+    <Box maxW={800} mx="auto" p={4}>
       <Heading
         as="h1"
         size="xl"
+        fontWeight="normal"
         noOfLines={1}
-        bg="teal"
-        color="white"
-        p={2}
-        textAlign="center"
+        borderBottom="1px"
+        py={2}
+        borderBottomColor="#dddddd"
       >
-        休日計算ツール
+        🗓️休日計算ツール
       </Heading>
+      <Text mt={2}>指定の期間内の休日数を計算するツールです。</Text>
+      <Text mt={2}>※祝日は昨年、今年、来年のみ取得できます。</Text>
       <Flex
         display="flex"
         bg="white"
         justifyContent="center"
-        maxW={800}
         gap={4}
-        mx="auto"
-        p={8}
+        px={{ base: 0, md: 0 }}
+        py={{ base: 4, md: 6 }}
         flexDirection={{ base: "column", md: "row" }}
       >
-        <Box border="1px" borderColor="#dddddd" px={4} py={8} borderRadius={8}>
+        <Box
+          border="1px"
+          borderColor="#dddddd"
+          flexShrink="1"
+          px={4}
+          py={8}
+          borderRadius={8}
+        >
           <SelectDate dateData={dateData} />
           <SelectOptions optionData={optionData} />
           <ExecuteButton buttonFunc={buttonFunc} />
@@ -225,7 +230,7 @@ const DateCalculator = () => {
           px={4}
           py={8}
           borderRadius={8}
-          minW={360}
+          minW={{ base: "initial", md: 360 }}
         >
           {isLoading ? (
             <Flex placeContent="center" placeItems="center" gap={2} h="100%">
@@ -242,7 +247,7 @@ const DateCalculator = () => {
           )}
         </Box>
       </Flex>
-    </>
+    </Box>
   );
 };
 
