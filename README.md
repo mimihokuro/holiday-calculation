@@ -1,9 +1,5 @@
-# React + Vite
+# 休日計算ツール
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-# holiday-calculation
+指定の期間内の休日数を計算するツールです。
+オプションとして土日祝とその他の休日数を入力することでそれぞれ日数を算出します。
+※祝日は昨年、今年、来年のみ取得できます。
