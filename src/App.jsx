@@ -140,12 +140,12 @@ const DateCalculator = () => {
         count++;
       } else if (
         option === "holidays" &&
-        (dayOfWeek === 0 || (await isHoliday(start)))
+        ((await isHoliday(start)) || dayOfWeek === 0)
       ) {
         count++;
       } else if (
         option === "weekends_holidays" &&
-        (dayOfWeek === 0 || dayOfWeek === 6 || (await isHoliday(start)))
+        ((await isHoliday(start)) || dayOfWeek === 0 || dayOfWeek === 6)
       ) {
         count++;
       } else if (option === "holidays_only" && (await isHoliday(start))) {
