@@ -1,6 +1,7 @@
 import { Box, ListItem, Text, UnorderedList } from "@chakra-ui/react";
 
 const DisplayHolidaysList = ({ nationalHolidaysList }) => {
+  const dayText = { weekday: "short" };
   return (
     <Box mt={8} backgroundColor="#f4f4f4" p={4} borderRadius={8}>
       <Text fontWeight="bold">
@@ -11,7 +12,8 @@ const DisplayHolidaysList = ({ nationalHolidaysList }) => {
           const outputDate = new Date(nhl.date);
           return (
             <ListItem key={index} fontSize={14} mt={2}>
-              {outputDate.getMonth() + 1}月{outputDate.getDate()}日：
+              {outputDate.getMonth() + 1}月{outputDate.getDate()}日&#40;
+              {outputDate.toLocaleDateString("ja-JP", dayText)}&#41;：
               {nhl.value}
             </ListItem>
           );
