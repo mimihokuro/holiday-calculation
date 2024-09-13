@@ -7,12 +7,12 @@ import {
   TableContainer,
   Radio,
   RadioGroup,
-  Stack,
   NumberInput,
   NumberInputField,
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
+  HStack,
 } from "@chakra-ui/react";
 
 const SelectOptions = ({ optionData }) => {
@@ -29,7 +29,7 @@ const SelectOptions = ({ optionData }) => {
             </Th>
             <Td display="flex" gap={2} flexWrap="wrap" py={1} px={2}>
               <RadioGroup value={option} onChange={handleOptionChange}>
-                <Stack direction="row" flexWrap="wrap">
+                <HStack flexWrap="wrap">
                   {OPTION_HOLIDAYS.map((oh) => {
                     return (
                       <Radio key={oh.value} colorScheme="teal" value={oh.value}>
@@ -37,7 +37,7 @@ const SelectOptions = ({ optionData }) => {
                       </Radio>
                     );
                   })}
-                </Stack>
+                </HStack>
               </RadioGroup>
             </Td>
           </Tr>

@@ -1,10 +1,10 @@
-import { Box, Button, ButtonGroup } from "@chakra-ui/react";
+import { Button, ButtonGroup, HStack } from "@chakra-ui/react";
 import { RepeatIcon, CheckIcon } from "@chakra-ui/icons";
 
 const ExecuteButton = ({ buttonFunc }) => {
   const { calculateDays, resetCalculateDays } = buttonFunc;
   return (
-    <Box display="flex" justifyContent="center" alignItems="center">
+    <HStack placeContent="center" placeItems="center">
       <ButtonGroup spacing={4} mt={4}>
         <Button
           rightIcon={<CheckIcon />}
@@ -23,7 +23,7 @@ const ExecuteButton = ({ buttonFunc }) => {
           リセット
         </Button>
       </ButtonGroup>
-    </Box>
+    </HStack>
   );
 };
 

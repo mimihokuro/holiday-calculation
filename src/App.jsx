@@ -3,7 +3,7 @@ import SelectDate from "./components/SelectDate";
 import SelectOptions from "./components/SelectOptions";
 import ExecuteButton from "./components/ExecuteButton";
 import DisplayResult from "./components/DisplayResult";
-import { Box, Flex, Heading, Text } from "@chakra-ui/react";
+import { Flex, Heading, Stack, Text } from "@chakra-ui/react";
 import { WarningIcon } from "@chakra-ui/icons";
 import DisplayHolidaysList from "./components/DisplayHolidaysList";
 
@@ -189,7 +189,7 @@ const DateCalculator = () => {
   const result = { between, days };
 
   return (
-    <Box maxW={800} mx="auto" p={4}>
+    <Stack maxW={800} mx="auto" p={4}>
       <Heading
         as="h1"
         size="xl"
@@ -212,7 +212,7 @@ const DateCalculator = () => {
         py={{ base: 4, md: 6 }}
         flexDirection={{ base: "column", md: "row" }}
       >
-        <Box
+        <Stack
           border="1px"
           borderColor="#dddddd"
           flexShrink="1"
@@ -223,8 +223,8 @@ const DateCalculator = () => {
           <SelectDate dateData={dateData} />
           <SelectOptions optionData={optionData} />
           <ExecuteButton buttonFunc={buttonFunc} />
-        </Box>
-        <Box
+        </Stack>
+        <Stack
           border="1px"
           borderColor="#dddddd"
           px={4}
@@ -245,9 +245,9 @@ const DateCalculator = () => {
               />
             </>
           )}
-        </Box>
+        </Stack>
       </Flex>
-    </Box>
+    </Stack>
   );
 };
 
