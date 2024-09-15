@@ -1,12 +1,12 @@
 import { Table, Tr, Th, Td, Tbody, TableContainer } from "@chakra-ui/react";
 
 const DisplayResult = ({ result }) => {
-  const { between, days } = result;
+  const { daysInPeriod, numberOfHolidays } = result;
 
   const TABLE_CONTENTS = [
-    { label: "期間日数", value: between },
-    { label: "休日数", value: days },
-    { label: "期間日数 - 休日数", value: between - days },
+    { label: "期間日数", value: daysInPeriod },
+    { label: "休日数", value: numberOfHolidays },
+    { label: "期間日数 - 休日数", value: daysInPeriod - numberOfHolidays },
   ];
 
   return (

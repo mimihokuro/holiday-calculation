@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SelectDate from "./components/SelectDate";
 import SelectOptions from "./components/SelectOptions";
 import ExecuteButton from "./components/ExecuteButton";
@@ -12,9 +12,11 @@ const DateCalculator = () => {
   const [startDate, setStartDate] = useState(`${today.getFullYear()}-01-01`);
   const [endDate, setEndDate] = useState(`${today.getFullYear()}-12-31`);
   const [option, setOption] = useState("sundays");
-  const [nationalHolidaysList, setNationalHolidaysList] = useState([]);
-  const [between, setBetween] = useState(0);
-  const [days, setDays] = useState(0);
+  const [nationalHolidays, setNationalHolidays] = useState(null);
+  const [nationalHolidaysInPeriodList, setNationalHolidaysInPeriodList] =
+    useState([]);
+  const [daysInPeriod, setDaysInPeriod] = useState(0);
+  const [numberOfHolidays, setNumberOfHolidays] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
   const [newYearHolidays, setNewYearHolidays] = useState(0);
@@ -91,40 +93,51 @@ const DateCalculator = () => {
     },
   ];
 
-  const isHoliday = async (date) => {
-    try {
-      const response = await fetch(
-        "https://holidays-jp.github.io/api/v1/date.json"
-      );
-      if (!response.ok) {
-        throw new Error("Error");
+  // マウント時に祝日一覧を取得
+  useEffect(() => {
+    const fetchHolidayData = async () => {
+      try {
+        const response = await fetch(
+          "https://holidays-jp.github.io/api/v1/date.json"
+        );
+        if (!response.ok) {
+          throw new Error("Error");
+        }
+        const json = await response.json();
+        setNationalHolidays(json);
+      } catch (error) {
+        console.log(error);
       }
-      const nationalHolidays = await response.json();
-      const dateString = date.toISOString().split("T")[0];
-      const isNH = nationalHolidays[dateString];
+    };
+    fetchHolidayData();
+  });
 
-      if (isNH !== undefined) {
-        setNationalHolidaysList((list) => [
-          ...list,
-          { date: dateString, value: isNH },
-        ]);
-      }
-      return Object.keys(nationalHolidays).includes(dateString);
-    } catch (error) {
-      console.log(error);
+  // 指定の日付が祝日かどうか判定
+  const isHoliday = async (date) => {
+    const dateString = date.toISOString().split("T")[0];
+    const holidayName = nationalHolidays[dateString];
+
+    if (holidayName !== undefined) {
+      setNationalHolidaysInPeriodList((list) => [
+        ...list,
+        { date: dateString, value: holidayName },
+      ]);
     }
+    return Object.keys(nationalHolidays).includes(dateString);
   };
 
+  // オプションの切り替え
   const handleOptionChange = (value) => {
     setOption(value);
   };
 
+  // 計算実行
   const calculateDays = async () => {
     setIsLoading(true);
     let start = new Date(startDate);
     let end = new Date(endDate);
-    setBetween((end - start) / (24 * 60 * 60 * 1000) + 1);
-    setNationalHolidaysList([]);
+    setDaysInPeriod((end - start) / (24 * 60 * 60 * 1000) + 1);
+    setNationalHolidaysInPeriodList([]);
 
     let count = 0;
 
@@ -161,10 +174,11 @@ const DateCalculator = () => {
       Number(summerHolidays) +
       Number(otherHolidays);
 
-    setDays(count);
+    setNumberOfHolidays(count);
     setIsLoading(false);
   };
 
+  // 検索条件をリセット
   const resetCalculateDays = () => {
     setStartDate(`${today.getFullYear()}-01-01`);
     setEndDate(`${today.getFullYear()}-12-31`);
@@ -173,9 +187,9 @@ const DateCalculator = () => {
     setGWHolidays(0);
     setSummerHolidays(0);
     setOtherHolidays(0);
-    setBetween(0);
-    setDays(0);
-    setNationalHolidaysList([]);
+    setDaysInPeriod(0);
+    setNumberOfHolidays(0);
+    setNationalHolidaysInPeriodList([]);
   };
 
   const dateData = { startDate, setStartDate, endDate, setEndDate };
@@ -186,7 +200,7 @@ const DateCalculator = () => {
     handleOptionChange,
   };
   const buttonFunc = { calculateDays, resetCalculateDays };
-  const result = { between, days };
+  const result = { daysInPeriod, numberOfHolidays };
 
   return (
     <Stack maxW={800} mx="auto" p={4}>
@@ -241,7 +255,7 @@ const DateCalculator = () => {
             <>
               <DisplayResult result={result} />
               <DisplayHolidaysList
-                nationalHolidaysList={nationalHolidaysList}
+                nationalHolidaysInPeriodList={nationalHolidaysInPeriodList}
               />
             </>
           )}
