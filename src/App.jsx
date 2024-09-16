@@ -216,7 +216,10 @@ const DateCalculator = () => {
         🗓️休日計算ツール
       </Heading>
       <Text mt={2}>指定の期間内の休日数を計算するツールです。</Text>
-      <Text mt={2}>※祝日は昨年、今年、来年のみ取得できます。</Text>
+      <Text mt={2}>
+        ※祝日は{today.getFullYear() - 1}年、{today.getFullYear()}年、
+        {today.getFullYear() + 1}年の分が取得できます。
+      </Text>
       <Flex
         display="flex"
         bg="white"
