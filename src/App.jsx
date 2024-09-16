@@ -133,49 +133,51 @@ const DateCalculator = () => {
 
   // 計算実行
   const calculateDays = () => {
-    setIsLoading(true);
-    let start = new Date(startDate);
-    let end = new Date(endDate);
-    setDaysInPeriod((end - start) / (24 * 60 * 60 * 1000) + 1);
-    setNationalHolidaysInPeriodList([]);
+    if (startDate <= endDate) {
+      setIsLoading(true);
+      let start = new Date(startDate);
+      let end = new Date(endDate);
+      setDaysInPeriod((end - start) / (24 * 60 * 60 * 1000) + 1);
+      setNationalHolidaysInPeriodList([]);
 
-    let count = 0;
+      let count = 0;
 
-    while (start <= end) {
-      const dayOfWeek = start.getDay();
+      while (start <= end) {
+        const dayOfWeek = start.getDay();
 
-      if (option === "sundays" && dayOfWeek === 0) {
-        count++;
-      } else if (
-        option === "weekends" &&
-        (dayOfWeek === 0 || dayOfWeek === 6)
-      ) {
-        count++;
-      } else if (
-        option === "holidays" &&
-        (isHoliday(start) || dayOfWeek === 0)
-      ) {
-        count++;
-      } else if (
-        option === "weekends_holidays" &&
-        (isHoliday(start) || dayOfWeek === 0 || dayOfWeek === 6)
-      ) {
-        count++;
-      } else if (option === "holidays_only" && isHoliday(start)) {
-        count++;
+        if (option === "sundays" && dayOfWeek === 0) {
+          count++;
+        } else if (
+          option === "weekends" &&
+          (dayOfWeek === 0 || dayOfWeek === 6)
+        ) {
+          count++;
+        } else if (
+          option === "holidays" &&
+          (isHoliday(start) || dayOfWeek === 0)
+        ) {
+          count++;
+        } else if (
+          option === "weekends_holidays" &&
+          (isHoliday(start) || dayOfWeek === 0 || dayOfWeek === 6)
+        ) {
+          count++;
+        } else if (option === "holidays_only" && isHoliday(start)) {
+          count++;
+        }
+
+        start.setDate(start.getDate() + 1);
       }
 
-      start.setDate(start.getDate() + 1);
+      count +=
+        Number(newYearHolidays) +
+        Number(GWHolidays) +
+        Number(summerHolidays) +
+        Number(otherHolidays);
+
+      setNumberOfHolidays(count);
+      setIsLoading(false);
     }
-
-    count +=
-      Number(newYearHolidays) +
-      Number(GWHolidays) +
-      Number(summerHolidays) +
-      Number(otherHolidays);
-
-    setNumberOfHolidays(count);
-    setIsLoading(false);
   };
 
   // 検索条件をリセット
