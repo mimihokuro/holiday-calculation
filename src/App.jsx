@@ -12,7 +12,7 @@ const DateCalculator = () => {
   const [startDate, setStartDate] = useState(`${today.getFullYear()}-01-01`);
   const [endDate, setEndDate] = useState(`${today.getFullYear()}-12-31`);
   const [option, setOption] = useState("sundays");
-  const [nationalHolidays, setNationalHolidays] = useState(null);
+  const [nationalHolidaysList, setNationalHolidaysList] = useState(null);
   const [nationalHolidaysInPeriodList, setNationalHolidaysInPeriodList] =
     useState([]);
   const [daysInPeriod, setDaysInPeriod] = useState(0);
@@ -104,7 +104,7 @@ const DateCalculator = () => {
           throw new Error("Error");
         }
         const json = await response.json();
-        setNationalHolidays(json);
+        setNationalHolidaysList(json);
       } catch (error) {
         console.log(error);
       }
@@ -113,9 +113,9 @@ const DateCalculator = () => {
   });
 
   // 指定の日付が祝日かどうか判定
-  const isHoliday = async (date) => {
+  const isHoliday = (date) => {
     const dateString = date.toISOString().split("T")[0];
-    const holidayName = nationalHolidays[dateString];
+    const holidayName = nationalHolidaysList[dateString];
 
     if (holidayName !== undefined) {
       setNationalHolidaysInPeriodList((list) => [
@@ -123,7 +123,7 @@ const DateCalculator = () => {
         { date: dateString, value: holidayName },
       ]);
     }
-    return Object.keys(nationalHolidays).includes(dateString);
+    return Object.keys(nationalHolidaysList).includes(dateString);
   };
 
   // オプションの切り替え
@@ -132,7 +132,7 @@ const DateCalculator = () => {
   };
 
   // 計算実行
-  const calculateDays = async () => {
+  const calculateDays = () => {
     setIsLoading(true);
     let start = new Date(startDate);
     let end = new Date(endDate);
@@ -153,15 +153,15 @@ const DateCalculator = () => {
         count++;
       } else if (
         option === "holidays" &&
-        ((await isHoliday(start)) || dayOfWeek === 0)
+        (isHoliday(start) || dayOfWeek === 0)
       ) {
         count++;
       } else if (
         option === "weekends_holidays" &&
-        ((await isHoliday(start)) || dayOfWeek === 0 || dayOfWeek === 6)
+        (isHoliday(start) || dayOfWeek === 0 || dayOfWeek === 6)
       ) {
         count++;
-      } else if (option === "holidays_only" && (await isHoliday(start))) {
+      } else if (option === "holidays_only" && isHoliday(start)) {
         count++;
       }
 
