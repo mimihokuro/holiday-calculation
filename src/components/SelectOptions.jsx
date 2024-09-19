@@ -13,21 +13,29 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
   HStack,
+  CheckboxGroup,
+  Checkbox,
+  Box,
 } from "@chakra-ui/react";
 
 const SelectOptions = ({ optionData }) => {
-  const { option, BUSINESS_HOLIDAYS, OPTION_HOLIDAYS, handleOptionChange } =
-    optionData;
+  const {
+    option,
+    selectedDays,
+    BUSINESS_HOLIDAYS,
+    OPTION_HOLIDAYS,
+    OPTION_WEEKDAYS,
+    handleOptionChange,
+    handleDaySelection,
+  } = optionData;
 
   return (
     <TableContainer>
-      <Table variant="simple" mt={8}>
+      <Table variant="simple" mt={4}>
         <Tbody>
           <Tr>
-            <Th w={32} textAlign="left">
-              集計する休日は
-            </Th>
-            <Td display="flex" gap={2} flexWrap="wrap" py={1} px={2}>
+            <Th textAlign="left">集計する日は</Th>
+            <Td display="flex" gap={2} flexWrap="wrap" py={3} px={2}>
               <RadioGroup value={option} onChange={handleOptionChange}>
                 <HStack flexWrap="wrap">
                   {OPTION_HOLIDAYS.map((oh) => {
@@ -39,14 +47,40 @@ const SelectOptions = ({ optionData }) => {
                   })}
                 </HStack>
               </RadioGroup>
+              {option === "weekday_designation" && (
+                <Box
+                  p={2}
+                  border="1px"
+                  borderColor="#e0e0e0"
+                  borderRadius={8}
+                  mt={2}
+                >
+                  <CheckboxGroup
+                    value={selectedDays}
+                    onChange={handleDaySelection}
+                  >
+                    <HStack flexWrap="wrap" gap={4}>
+                      {OPTION_WEEKDAYS.map((day) => {
+                        return (
+                          <Checkbox
+                            key={day.value}
+                            colorScheme="teal"
+                            value={day.value}
+                          >
+                            {day.title}
+                          </Checkbox>
+                        );
+                      })}
+                    </HStack>
+                  </CheckboxGroup>
+                </Box>
+              )}
             </Td>
           </Tr>
           {BUSINESS_HOLIDAYS.map((bh) => {
             return (
               <Tr key={bh.title}>
-                <Th w={32} textAlign="left">
-                  {bh.title}
-                </Th>
+                <Th textAlign="left">{bh.title}</Th>
                 <Td display="flex" placeItems="center" gap={2}>
                   <NumberInput
                     maxW={16}

@@ -12,6 +12,7 @@ const DateCalculator = () => {
   const [startDate, setStartDate] = useState(`${today.getFullYear()}-01-01`);
   const [endDate, setEndDate] = useState(`${today.getFullYear()}-12-31`);
   const [option, setOption] = useState("sundays");
+  const [selectedDays, setSelectedDays] = useState([]);
   const [nationalHolidaysList, setNationalHolidaysList] = useState(null);
   const [nationalHolidaysInPeriodList, setNationalHolidaysInPeriodList] =
     useState([]);
@@ -91,6 +92,19 @@ const DateCalculator = () => {
       title: "祝日のみ",
       value: "holidays_only",
     },
+    {
+      title: "曜日指定",
+      value: "weekday_designation",
+    },
+  ];
+  const OPTION_WEEKDAYS = [
+    { value: "Sunday", title: "日曜" },
+    { value: "Monday", title: "月曜" },
+    { value: "Tuesday", title: "火曜" },
+    { value: "Wednesday", title: "水曜" },
+    { value: "Thursday", title: "木曜" },
+    { value: "Friday", title: "金曜" },
+    { value: "Saturday", title: "土曜" },
   ];
 
   // マウント時に祝日一覧を取得
@@ -129,6 +143,14 @@ const DateCalculator = () => {
   // オプションの切り替え
   const handleOptionChange = (value) => {
     setOption(value);
+    if (value !== "weekday-designation") {
+      setSelectedDays([]); // 曜日指定を解除
+    }
+  };
+
+  // 曜日オプションの切り替え
+  const handleDaySelection = (days) => {
+    setSelectedDays(days);
   };
 
   // 計算実行
@@ -164,6 +186,22 @@ const DateCalculator = () => {
           count++;
         } else if (option === "holidays_only" && isHoliday(start)) {
           count++;
+        } else if (option === "weekday_designation") {
+          if (selectedDays.includes("Sunday") && dayOfWeek === 0) {
+            count++;
+          } else if (selectedDays.includes("Monday") && dayOfWeek === 1) {
+            count++;
+          } else if (selectedDays.includes("Tuesday") && dayOfWeek === 2) {
+            count++;
+          } else if (selectedDays.includes("Wednesday") && dayOfWeek === 3) {
+            count++;
+          } else if (selectedDays.includes("Thursday") && dayOfWeek === 4) {
+            count++;
+          } else if (selectedDays.includes("Friday") && dayOfWeek === 5) {
+            count++;
+          } else if (selectedDays.includes("Saturday") && dayOfWeek === 6) {
+            count++;
+          }
         }
 
         start.setDate(start.getDate() + 1);
@@ -197,9 +235,12 @@ const DateCalculator = () => {
   const dateData = { startDate, setStartDate, endDate, setEndDate };
   const optionData = {
     option,
+    selectedDays,
     BUSINESS_HOLIDAYS,
     OPTION_HOLIDAYS,
+    OPTION_WEEKDAYS,
     handleOptionChange,
+    handleDaySelection,
   };
   const buttonFunc = { calculateDays, resetCalculateDays };
   const result = { daysInPeriod, numberOfHolidays };
